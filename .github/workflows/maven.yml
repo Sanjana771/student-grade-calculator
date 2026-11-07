@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       # Step 1: Checkout GitHub repository
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,29 +27,17 @@ jobs:
       - name: Build Maven project
         run: mvn clean verify
 
-      # Step 4: Verify Docker Hub username secret
-      - name: Verify Docker Hub username
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: |
-          if [ -z "$DOCKERHUB_USERNAME" ]; then
-            echo "Docker Hub username is missing"
-            exit 1
-          else
-            echo "Docker Hub username is configured"
-          fi
-
-      # Step 5: Login to Docker Hub
+      # Step 4: Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: sanjana771
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Step 6: Build and push Docker image
+      # Step 5: Build and Push Docker Image
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/student-grade-calculator:latest
+          tags: sanjana771/student-grade-calculator:latest
